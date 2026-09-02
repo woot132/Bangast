@@ -2,8 +2,7 @@
 
 <html lang="th">
 <head>
-    <script src="app-config.js?v=20260901-central-api-1"></script>
-<meta charset="UTF-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="เว็บไซต์ร้านหนังสือสไตล์ภาพประกอบ พร้อมใช้งานบน GitHub Pages" />
   <title>สกร.ระดับอำเภอบ่อเกลือ</title>
@@ -14,28 +13,13 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <script>
-    // Cold load: เริ่ม homefast เร็วตั้งแต่ <head>.
-    // Repeat load: ถ้ามี cache อายุไม่เกิน 15 นาที ไม่ยิง Apps Script ซ้ำ เพื่อให้เน็ตว่างสำหรับ CSS/รูปภาพ.
-    (function () {
-      var cacheKey = 'SITE_FAST:homefast-v8-performance';
-      var maxAge = 15 * 60 * 1000;
-      var admin = false;
-      try { admin = Boolean(sessionStorage.getItem('mysiteAdminToken')); } catch (_) {}
-      function hasUsable(storage) {
-        if (!storage) return false;
-        try {
-          var saved = JSON.parse(storage.getItem(cacheKey) || 'null');
-          return Boolean(saved && saved.savedAt && (Date.now() - saved.savedAt <= maxAge));
-        } catch (_) { return false; }
-      }
-      if (!admin && (hasUsable(window.sessionStorage) || hasUsable(window.localStorage))) return;
-      window.__SITE_HOMEFAST_PREFETCH = fetch(
-        window.APP_CONFIG.API_URL + '?mode=homefast',
-        { method: 'GET', cache: 'default', credentials: 'omit' }
-      ).then(function (response) {
-        return response.ok ? response.json() : null;
-      }).catch(function () { return null; });
-    })();
+    // เริ่มโหลดข้อมูลหลักตั้งแต่ <head> ไม่ต้องรอ JavaScript ด้านล่างหน้า
+    window.__SITE_HOMEFAST_PREFETCH = fetch(
+      'https://script.google.com/macros/s/AKfycbxwqpydnQSx2aPrQ8yJAN3P9Jkjic-8nNIlOHYFRyarrtTyb26sE_USzXNS7uk478wh8w/exec?mode=homefast',
+      { method: 'GET', cache: 'default', credentials: 'omit' }
+    ).then(function (response) {
+      return response.ok ? response.json() : null;
+    }).catch(function () { return null; });
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -51,12 +35,26 @@
   }
 
     /* ลดงาน layout/paint ของส่วนล่างที่ยังไม่อยู่ในจอ */
-    #learningSourceBox, #bestPracticeBox, #FBpostBox, #cliproomBox, #learningBaseModule {
+    #learningSourceBox, #activityBox, #FBpostBox, #cliproomBox, #learningBaseModule {
       content-visibility: auto;
       contain-intrinsic-size: 1px 620px;
     }
 </style>
-  <link rel="stylesheet" href="index-fast-core.css?v=20260902-section-image-detail-1">
+<link rel="stylesheet" href="style.css?v=20260828-register-1" />
+  <link rel="stylesheet" href="announcement.css?v=20260824-1" />
+  <link rel="stylesheet" href="site-content.css?v=20260824-1" />
+  <link rel="stylesheet" href="admin-mode.css?v=20260831-storage-1" />
+  <link rel="stylesheet" href="admin-section-guide.css?v=20260902-image-detail-2" />
+  <link rel="stylesheet" href="learning-source-box.css?v=20260819-2" />
+  <link rel="stylesheet" href="activity-box.css?v=20260826-6" />
+  <link rel="stylesheet" href="fbpost-box.css?v=20260826-1" />
+  <link rel="stylesheet" href="boss-box.css?v=20260723-2" />
+  <link rel="stylesheet" href="bus-box.css?v=20260723-1" />
+  <link rel="stylesheet" href="cliproom-box.css?v=20260827-1" />
+  <link rel="stylesheet" href="shopactivity-box.css?v=20260828-1" />
+  <link rel="stylesheet" href="user-box.css?v=20260818-1" />
+  <link rel="stylesheet" href="student-services.css?v=20260822-2" />
+  <link rel="stylesheet" href="home-summary.css?v=20260824-3" />
   <style>
     #learningBaseModule.shopactivity-preview{padding:52px 0;background:linear-gradient(145deg,#f4f7fb,#fff 55%,#eff5ff)}
     #learningBaseModule .shopactivity-arrow{width:40px;height:40px;padding:0;border-radius:50%;background:#fff;color:#2563eb;font-size:28px}
@@ -64,7 +62,8 @@
     #learningBaseModule .shopactivity-dot.active{width:27px;background:#2563eb}
     @media(max-width:620px){#learningBaseModule.shopactivity-preview{padding:38px 0}#learningBaseModule .shopactivity-arrow{top:auto;bottom:0;width:36px;height:36px;padding:0}}
   </style>
-  <link rel="stylesheet" href="index-fast-profile.css?v=20260902-fast-1">
+  <link rel="stylesheet" href="profile-box.css?v=20260828-register-login-effect-1" />
+<link rel="stylesheet" href="student-box.css?v=20260817-1" />
   <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link
   rel="stylesheet"
@@ -73,9 +72,8 @@
   <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
       media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="theme-modern.css?v=20260902-buttons-2">
 </head>
-<body class="website-data-loading theme-v2">
+<body class="website-data-loading">
   <div id="adminLoginModal" class="admin-login-modal" hidden>
     <form id="adminLoginForm" class="admin-login-card" autocomplete="on">
       <button id="adminLoginClose" class="admin-login-close" type="button" aria-label="ปิด">&times;</button>
@@ -149,6 +147,7 @@
 
     <a class="brand" href="#home" aria-label="หน้าหลัก">
       <span class="brand-icon" data-website-brand-icon></span>
+      <span data-website-brand-name></span>
     </a>
 
     <nav class="main-nav" aria-label="เมนูหลัก">
@@ -158,6 +157,7 @@
         </button>
         <div class="main-nav-dropdown-menu" role="menu">
           <a href="vision.html" role="menuitem">วิสัยทัศน์ อัตลักษณ์ พันธกิจ</a>
+          <a href="team.html" role="menuitem">บุคลากร</a>
           <a href="contact.html" role="menuitem">ติดต่อ/สอบถาม</a>
         </div>
       </div>
@@ -317,28 +317,19 @@
           <div id="newsDots" class="news-dots"></div>
         </div>
 
-        <!-- ข้อมูลใต้ข่าวสาร: 2 แถว -->
+        <!-- กล่องข้อมูลต่อใต้ข่าวสาร: อยู่ในแถวเดียวกัน -->
         <div class="news-info-row admin-news-info-row">
-          <!-- แถว 1: บุคลากรจากชีต boss แสดง 1 แถวและเลื่อนได้เมื่อรายการล้น -->
-          <aside id="bossBox" class="boss-box boss-carousel" aria-label="บุคลากร" aria-live="polite">
-            <div class="boss-box-toolbar">
-              <button class="admin-manage-data-button admin-only" type="button" data-admin-page="team">
-                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                จัดการข้อมูล
-              </button>
+          <div class="admin-news-info-note admin-only"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>เข้าหน้าเพจแต่ละรายการเพื่อเพิ่มข้อมูล</div>
+          <aside id="bossBox" class="boss-box" hidden aria-live="polite">
+            <div class="boss-photo-wrap">
+              <img id="bossPhoto" class="boss-photo" src="" alt="รูปผู้บริหาร">
             </div>
-            <div class="boss-carousel-shell">
-              <button id="bossPrev" class="boss-carousel-arrow boss-carousel-prev" type="button" aria-label="บุคลากรก่อนหน้า" hidden>‹</button>
-              <div id="bossViewport" class="boss-carousel-viewport">
-                <div id="bossTrack" class="boss-carousel-track">
-                  <div class="boss-carousel-status">กำลังโหลดข้อมูลบุคลากร...</div>
-                </div>
-              </div>
-              <button id="bossNext" class="boss-carousel-arrow boss-carousel-next" type="button" aria-label="บุคลากรถัดไป" hidden>›</button>
+            <div class="boss-text">
+              <div id="bossName" class="boss-name"></div>
+              <div id="bossPosition" class="boss-position"></div>
             </div>
           </aside>
 
-          <!-- แถว 2: เมนูผลงานเรียงแนวนอน -->
           <section id="studentBox" class="student-box menu-shortcuts" aria-label="เมนูลัด">
             <div id="settingMenuGrid" class="setting-menu-grid" aria-live="polite">
               <div class="setting-menu-loading">กำลังโหลดเมนู...</div>
@@ -359,39 +350,21 @@
 
       <div class="student-services-grid">
         <div class="student-services-account">
-          <div class="student-services-account-photo-wrap">
-            <img
-              id="studentServicesLoginPhoto"
-              class="student-services-account-image"
-              src="https://static.wixstatic.com/media/a503e5_de01d7417d364b9a81f6702f7dd6932a~mv2.png"
-              alt="ภาพหน้าเข้าสู่ระบบนักศึกษา">
-          </div>
-
-          <div class="student-services-login-panel">
-            <div class="student-services-login-brand">
-              <img
-                id="studentServicesLoginLogo"
-                class="student-services-login-logo"
-                alt="โลโก้หน่วยงาน">
-              <div id="studentServicesLoginTitle" class="student-services-login-title">ระบบช่วยเหลือผู้เรียน</div>
-              <div id="studentServicesLoginSubtitle" class="student-services-login-subtitle"></div>
-            </div>
-
-            <div class="student-services-login-divider" aria-hidden="true"></div>
-
-            <form id="studentServicesLoginForm" class="student-services-login">
-              <label for="studentServicesId">รหัสประจำตัวนักศึกษา</label>
-              <input
-                id="studentServicesId"
-                name="studentId"
-                type="text"
-                inputmode="numeric"
-                maxlength="10"
-                autocomplete="off"
-                aria-label="รหัสประจำตัวนักศึกษา">
-              <button id="studentServicesLoginBtn" type="submit">LOGIN</button>
-            </form>
-          </div>
+          <form id="studentServicesLoginForm" class="student-services-login">
+            <label for="studentServicesId">กรอกรหัสนักศึกษา</label>
+            <input
+              id="studentServicesId"
+              name="studentId"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              aria-label="รหัสนักศึกษา">
+            <button id="studentServicesLoginBtn" type="submit">Log in</button>
+          </form>
+          <img
+            class="student-services-account-image"
+            src="https://static.wixstatic.com/media/a503e5_de01d7417d364b9a81f6702f7dd6932a~mv2.png"
+            alt="นักศึกษา">
         </div>
 
         <article class="student-service-card student-service-exam"
@@ -438,8 +411,31 @@
   </div>
 </section>
 
+<!-- รายการ User: แสดงเป็นสไลด์ก่อนแหล่งเรียนรู้ -->
+<section id="userBox" class="user-box-section" aria-label="รายการผู้ใช้งาน" data-admin-section="2">
+  <div class="container">
+    <div class="user-box-heading">
+      <a class="user-box-heading-link" href="user_all.html">
+        <div>
+          <div class="user-box-kicker">★ ผู้ใช้งาน Learning Platform 360</div>
+          <h2>รายการ User</h2>
+        </div>
+        <span class="user-box-open-all">ดูรายการทั้งหมด</span>
+      </a>
+    </div>
+
+    <div id="userBoxSlider" class="user-box-slider">
+      <div id="userBoxTrack" class="user-box-track">
+        <div class="user-box-loading">กำลังโหลดรายการ User...</div>
+      </div>
+      <button id="userBoxPrev" class="user-box-arrow user-box-prev" type="button" aria-label="รายการก่อนหน้า">‹</button>
+      <button id="userBoxNext" class="user-box-arrow user-box-next" type="button" aria-label="รายการถัดไป">›</button>
+    </div>
+  </div>
+</section>
+
 <!-- แหล่งเรียนรู้ในพื้นที่: Box แยก ไม่กระทบระบบเดิม -->
-<section id="learningSourceBox" class="lsb-section" data-admin-section="2">
+<section id="learningSourceBox" class="lsb-section" data-admin-section="3">
   <div class="container">
 
     <div class="section-heading learning-source-heading">
@@ -461,7 +457,7 @@
     </div>
 
     <div class="lsb-rating-note">
-      วางเมาส์ที่หมุดเพื่อดูข้อมูลแหล่งเรียนรู้ และเลื่อนดูภาพรายการด้านล่าง
+      รายการเรียงตามจำนวนคะแนนความพึงพอใจ
       <span aria-hidden="true">★</span>
     </div>
 
@@ -484,43 +480,38 @@
 
 <!-- ห้องเรียนออนไลน์: ใช้ระบบ Login เดียวกับ accountBtn -->
 
-<!-- Best Practice Box: ข้อมูลจากชีต best_practice -->
-<section id="bestPracticeBox" class="best-practice-box-section" data-admin-section="3">
-  <div class="best-practice-box-container">
-    <div class="best-practice-box-heading">
-      <div>
-        <div class="activity-box-kicker">★ BEST PRACTICE</div>
-        <h2>แนวปฏิบัติที่เป็นเลิศ</h2>
-      </div>
+<!-- Activity Box: ข้อมูลจากชีต activity -->
+<section id="activityBox" class="activity-box-section" data-admin-section="4">
+  <div class="activity-box-container">
+<div class="activity-box-heading activity-admin-heading">
 
-      <div class="best-practice-box-heading-actions">
-        <a class="best-practice-box-admin-btn admin-only" href="best_practice.html">
-          <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-          จัดการ Best Practice
-        </a>
+    <div>
+        <div class="activity-box-kicker">
+            ★ ข่าวกิจกรรม
+        </div>
 
-        <a class="best-practice-box-more-btn" href="best_practice.html">
-          ดู Best Practice ทั้งหมด
-        </a>
-      </div>
+        <h2>จดหมายข่าว</h2>
     </div>
 
-    <div id="bestPracticeBoxStatus" class="best-practice-box-status">
-      กำลังโหลด Best Practice...
+<button id="manageNewsletterButton" class="editwebsite-btn newsletter-manager-trigger admin-only" type="button"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>เพิ่มจดหมายข่าว</button>
+
+<a class="activity-box-more-btn"
+   href="activity.html">
+  ดูกิจกรรมทั้งหมด
+</a>
+
+</div>
+
+    <div id="activityBoxStatus" class="activity-box-status">
+      กำลังโหลดกิจกรรม...
     </div>
 
-    <div id="bestPracticeBoxSlider" class="best-practice-box-slider" hidden>
-      <button id="bestPracticeBoxPrev" class="best-practice-box-arrow best-practice-box-prev" type="button" aria-label="Best Practice ก่อนหน้า">‹</button>
-      <div id="bestPracticeBoxViewport" class="best-practice-box-viewport">
-        <div id="bestPracticeBoxTrack" class="best-practice-box-track"></div>
-      </div>
-      <button id="bestPracticeBoxNext" class="best-practice-box-arrow best-practice-box-next" type="button" aria-label="Best Practice ถัดไป">›</button>
-    </div>
+    <div id="activityBoxGrid" class="activity-box-grid"></div>
   </div>
 </section>
 
 <!-- FBpostBox: โพสต์ Facebook จากชีต facebook ของทุก Spreadsheet ตำบล -->
-<section id="FBpostBox" class="fbpost-box-section" aria-labelledby="fbpostBoxTitle" data-admin-section="4">
+<section id="FBpostBox" class="fbpost-box-section" aria-labelledby="fbpostBoxTitle" data-admin-section="5">
   <div class="fbpost-box-container">
     <div class="fbpost-box-heading fbpost-admin-heading">
       <div>
@@ -543,7 +534,7 @@
   </div>
 </section>
 
-<section id="cliproomBox" class="cliproom-section" aria-labelledby="cliproomTitle" data-admin-section="5">
+<section id="cliproomBox" class="cliproom-section" aria-labelledby="cliproomTitle" data-admin-section="6">
   <div class="container">
     <div class="cliproom-admin-actions admin-only" aria-label="จัดการหลักสูตรอบรมออนไลน์">
       <a class="cliproom-admin-course-button" href="admincliproom.html" target="_blank" rel="noopener noreferrer">
@@ -577,7 +568,7 @@
   </div>
 </section>
 
-<section id="learningBaseModule" class="shopactivity-preview" aria-labelledby="shopActivityTitle" data-admin-section="6">
+<section id="learningBaseModule" class="shopactivity-preview" aria-labelledby="shopActivityTitle" data-admin-section="7">
   <div class="container">
     <div class="shopactivity-admin-actions admin-only" aria-label="จัดการกิจกรรม">
       <a class="shopactivity-admin-edit-button" href="addactivity.html" target="_blank" rel="noopener noreferrer">
@@ -641,23 +632,23 @@
     <div class="copyright">© 2026 Mintana. All rights reserved.</div>
   </footer>
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
+<script defer src="site-fast-data.js?v=20260830-fast-2"></script>
+<script defer src="script.js?v=20260830-fast-1"></script>
+<script defer src="announcement.js?v=20260824-1"></script>
+<script defer src="site-content.js?v=20260824-1"></script>
+<script defer src="admin-mode.js?v=20260902-newsurl-optional-2"></script>
+<script defer src="admin-section-guide.js?v=20260902-image-detail-2"></script>
+<script defer src="home-summary.js?v=20260830-fast-2"></script>
+<script defer src="profile-config.js?v=20260821-1"></script>
+<script defer src="student-profile-login.js?v=20260830-login-fast-2"></script>
+<script defer src="student-service-ranking.js?v=20260830-fast-2"></script>
+<script defer src="user-box.js?v=20260818-2"></script>
+<script defer src="learning-source-box.js?v=20260819-2"></script>
+  <script defer src="activity-box.js?v=20260826-6"></script>
+  <script defer src="fbpost-box.js?v=20260826-7"></script>
+  <script defer src="boss-box.js?v=20260723-2"></script>
+  <script defer src="cliproom-box.js?v=20260815-3"></script>
+  <script defer src="shopactivity-box.js?v=20260815-1"></script>
 
 <!-- Student Modal -->
 <div id="studentModal" class="learning-modal">
@@ -938,8 +929,8 @@
 <!-- Popup รายละเอียดหนังสือ -->
 </div>
 
-  
-  
+  <script defer src="learning-base.js?v=20260828-register-login-effect-1"></script>
+  <script defer src="profile-box.js?v=20260731-1"></script>
 
   
 
@@ -948,50 +939,96 @@
      class="mobile-bottom-nav"
      aria-label="เมนูด้านล่าง">
 
-  <a href="#home" class="mobile-bottom-link active" data-mobile-bottom-item data-menu-key="home">
-    <i class="fa-solid fa-house" aria-hidden="true"></i>
+  <a href="#home" class="mobile-bottom-link active">
+    <i class="fa fa-home" aria-hidden="true"></i>
     <span>Home</span>
   </a>
 
-  <button type="button" class="mobile-bottom-link mobile-bottom-menu-trigger" data-mobile-bottom-item data-menu-key="works" aria-expanded="false">
-    <i class="fa-solid fa-trophy" aria-hidden="true"></i>
-    <span>ผลงานของเรา</span>
-  </button>
-
-  <a href="https://edudole.github.io/tambol_prototype1/#cliproomBox" class="mobile-bottom-link" data-mobile-bottom-item data-menu-key="cliproom">
-    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
-    <span>หลักสูตรออนไลน์</span>
+  <a href="#newsSlider" class="mobile-bottom-link">
+    <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+    <span>ข่าวสาร</span>
   </a>
 
-  <a href="https://edudole.github.io/tambol_prototype1/#learningBaseModule" class="mobile-bottom-link" data-mobile-bottom-item data-menu-key="shopactivity">
-    <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
-    <span>ช้อปกิจกรรม</span>
+  <a href="#learningSourceBox" class="mobile-bottom-link">
+    <i class="fa fa-map-marker" aria-hidden="true"></i>
+    <span>แหล่งเรียนรู้</span>
   </a>
 
-  <button type="button" class="mobile-bottom-link mobile-bottom-menu-trigger" data-mobile-bottom-item data-menu-key="district" aria-expanded="false">
-    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-    <span>สกร.ระดับตำบล</span>
-  </button>
+  <a href="#cliproomBox" class="mobile-bottom-link">
+    <i class="fa fa-play-circle" aria-hidden="true"></i>
+    <span>หลักสูตร</span>
+  </a>
 
-  <button type="button" class="mobile-bottom-link mobile-bottom-menu-trigger" data-mobile-bottom-item data-menu-key="library" aria-expanded="false">
-    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-    <span>ห้องสมุด</span>
-  </button>
+<a href="shopactivity.html" class="mobile-bottom-link" target="_blank" rel="noopener">
+    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+    <span>กิจกรรม</span>
+  </a>
 
-  <button id="mobileBottomMore" type="button" class="mobile-bottom-link mobile-bottom-more" aria-expanded="false" hidden>
-    <i class="fa-solid fa-bars" aria-hidden="true"></i>
-    <span>เมนู</span>
-  </button>
-
-  <div id="mobileBottomPanel" class="mobile-bottom-panel" hidden>
-    <div class="mobile-bottom-panel-head">
-      <strong id="mobileBottomPanelTitle">เมนู</strong>
-      <button id="mobileBottomPanelClose" type="button" aria-label="ปิดเมนู">×</button>
-    </div>
-    <div id="mobileBottomPanelBody" class="mobile-bottom-panel-body"></div>
-  </div>
 </nav>
-<script defer src="mobile-bottom-nav.js?v=20260902-mobile-nav-1"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const mobileLinks = Array.from(
+    document.querySelectorAll('.mobile-bottom-link')
+  );
+
+  const sectionIds = [
+    'home',
+    'newsSlider',
+    'learningSourceBox',
+    'cliproomBox',
+    'learningBaseModule'
+  ];
+
+  const setActiveMenu = function (targetId) {
+    mobileLinks.forEach(function (link) {
+      const href = link.getAttribute('href');
+      link.classList.toggle(
+        'active',
+        href === '#' + targetId
+      );
+    });
+  };
+
+  mobileLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      const targetId = link
+        .getAttribute('href')
+        .replace('#', '');
+
+      setActiveMenu(targetId);
+    });
+  });
+
+  const observer = new IntersectionObserver(
+    function (entries) {
+      const visibleEntries = entries
+        .filter(function (entry) {
+          return entry.isIntersecting;
+        })
+        .sort(function (a, b) {
+          return b.intersectionRatio - a.intersectionRatio;
+        });
+
+      if (visibleEntries.length) {
+        setActiveMenu(visibleEntries[0].target.id);
+      }
+    },
+    {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: [0.01, 0.1, 0.25]
+    }
+  );
+
+  sectionIds.forEach(function (id) {
+    const section = document.getElementById(id);
+
+    if (section) {
+      observer.observe(section);
+    }
+  });
+});
+</script>
   <!-- Popup ประชาสัมพันธ์จากชีต boss -->
   <div id="bossPopup" class="boss-popup" hidden aria-hidden="true">
     <div class="boss-popup-dialog" role="dialog" aria-modal="true" aria-label="ประชาสัมพันธ์">
@@ -1003,6 +1040,5 @@
     </div>
   </div>
 
-  <script defer src="index-fast.js?v=20260902-news-upload-1"></script>
 </body>
 </html>
