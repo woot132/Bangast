@@ -167,6 +167,17 @@ function renderMainNavMenus(data) {
   const districtBox = document.getElementById('districtMenuList');
   const libraryBox = document.getElementById('libraryMenuList');
 
+  function setToggleTitle(box, title) {
+    if (!box) return;
+    const button = box.closest('.main-nav-dropdown')?.querySelector('.main-nav-dropdown-toggle');
+    const label = String(title || '').trim();
+    if (!button || !label) return;
+    button.innerHTML = `${escapeHtml(label)} <span aria-hidden="true">▾</span>`;
+  }
+
+  setToggleTitle(districtBox, data.districtTitle || data.subdistrictTitle || 'สกร.ระดับตำบล');
+  setToggleTitle(libraryBox, data.libraryTitle || 'ห้องสมุด');
+
   function normalize(items) {
     return (Array.isArray(items) ? items : [])
       .map(item => Array.isArray(item)
@@ -221,7 +232,7 @@ function renderSettingMenus(items) {
       const isTeam = title.includes('บุคลากร') || title.includes('ทีมของเรา') || title === 'team';
       return !(isBestPractice || isTeam);
     })
-    .slice(0, 6);
+    ;
 
   if (!rows.length) {
     grid.innerHTML = '<div class="setting-menu-empty">ยังไม่มีข้อมูลเมนูใน setting!D2:F</div>';
@@ -242,13 +253,18 @@ function renderSettingMenus(items) {
       normalizedTitle === 'หลักสูตร';
     const isInnovation = normalizedTitle.includes('นวัตกรรม') ||
       normalizedTitle.includes('สื่อ/');
-    const href = isCourse
-      ? 'course.html'
-      : (isReward
-          ? 'reward.html'
-          : (isMedia
-              ? 'media.html'
-              : (isInnovation ? 'innovation.html' : '')));
+    const isReport = normalizedTitle.includes('รายงานผลการปฏิบัติการ') ||
+      normalizedTitle.includes('ผลการปฏิบัติการ') ||
+      normalizedTitle === 'report';
+    const href = isReport
+      ? 'report.html'
+      : (isCourse
+          ? 'course.html'
+          : (isReward
+              ? 'reward.html'
+              : (isMedia
+                  ? 'media.html'
+                  : (isInnovation ? 'innovation.html' : ''))));
     const tag = href ? 'a' : 'div';
     const linkAttrs = href
       ? ` href="${href}" aria-label="เปิดหน้า ${escapeHtml(item.title)}"`
